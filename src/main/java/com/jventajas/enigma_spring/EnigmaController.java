@@ -25,8 +25,23 @@ public class EnigmaController {
         model.addAttribute("ciphertext", "");
         model.addAttribute("error", null);
         model.addAttribute("letters", getLetters());
+
+        // Add default values
+        model.addAttribute("leftRotor", "I");
+        model.addAttribute("centerRotor", "II");
+        model.addAttribute("rightRotor", "III");
+        model.addAttribute("leftPosition", "A");
+        model.addAttribute("centerPosition", "A");
+        model.addAttribute("rightPosition", "A");
+        model.addAttribute("leftRing", "A");
+        model.addAttribute("centerRing", "A");
+        model.addAttribute("rightRing", "A");
+        model.addAttribute("selectedReflector", "B");
+        model.addAttribute("plugboard", "AB CD EF");
+
         return "home";
     }
+
 
     @PostMapping("/")
     public String handleEncryption(
@@ -57,10 +72,36 @@ public class EnigmaController {
             model.addAttribute("ciphertext", ciphertext);
             model.addAttribute("error", null);
 
+            // Add selected values to the model
+            model.addAttribute("leftRotor", leftRotor);
+            model.addAttribute("centerRotor", centerRotor);
+            model.addAttribute("rightRotor", rightRotor);
+            model.addAttribute("leftPosition", leftPosition);
+            model.addAttribute("centerPosition", centerPosition);
+            model.addAttribute("rightPosition", rightPosition);
+            model.addAttribute("leftRing", leftRing);
+            model.addAttribute("centerRing", centerRing);
+            model.addAttribute("rightRing", rightRing);
+            model.addAttribute("selectedReflector", reflector);
+            model.addAttribute("plugboard", plugboard);
+
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             model.addAttribute("plaintext", plaintext);
             model.addAttribute("ciphertext", "");
+
+            // Still add the selected values even in case of error
+            model.addAttribute("leftRotor", leftRotor);
+            model.addAttribute("centerRotor", centerRotor);
+            model.addAttribute("rightRotor", rightRotor);
+            model.addAttribute("leftPosition", leftPosition);
+            model.addAttribute("centerPosition", centerPosition);
+            model.addAttribute("rightPosition", rightPosition);
+            model.addAttribute("leftRing", leftRing);
+            model.addAttribute("centerRing", centerRing);
+            model.addAttribute("rightRing", rightRing);
+            model.addAttribute("selectedReflector", reflector);
+            model.addAttribute("plugboard", plugboard);
         }
 
         model.addAttribute("letters", getLetters());
