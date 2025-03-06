@@ -1,13 +1,171 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en">
 <head>
-    <title>Greeting</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enigma Machine</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" href="data:,">
+    <script>
+        function handlePlugboardInput(input) {
+            let value = input.value;
+
+            // Remove non-letters and format as uppercase pairs
+            value = value.replace(/[^a-zA-Z]/g, '').toUpperCase();
+            let formattedValue = '';
+            for (let i = 0; i < value.length; i++) {
+                if (i > 0 && i % 2 === 0) {
+                    formattedValue += ' ';
+                }
+                formattedValue += value[i];
+            }
+            if (value.length > 0 && value.length % 2 === 1 && formattedValue.endsWith(' ')) {
+                formattedValue = formattedValue.slice(0, -1);
+            }
+            input.value = formattedValue;
+        }
+    </script>
 </head>
 <body>
-<h1 th:text="${message}">Hello World!</h1>
-<form action="/" method="post">
-    <input type="text" name="name" placeholder="Enter your name" required/>
-    <button type="submit">Submit</button>
-</form>
+<div class="container">
+    <h1>Enigma Machine</h1>
+    <div class="error" th:if="${error != null}">
+        <p>Error: <span th:text="${error}"></span></p>
+    </div>
+    <form method="post" action="/" novalidate>
+        <!-- Plaintext Input -->
+        <label for="plaintext">Plaintext:</label>
+        <textarea id="plaintext" name="plaintext" rows="4" cols="50"
+                  placeholder="Enter plaintext here" required th:text="${plaintext}"></textarea>
+
+        <!-- Columns Container -->
+        <div class="columns-container">
+            <!-- Left Column (Rotors) -->
+            <div class="left-column">
+                <!-- Rotor I -->
+                <div class="dropdown-row">
+                    <div class="form-group">
+                        <label for="left_rotor">Rotor I</label>
+                        <select name="left_rotor" id="left_rotor" required>
+                            <option value="I">I</option>
+                            <option value="II">II</option>
+                            <option value="III">III</option>
+                            <option value="IV">IV</option>
+                            <option value="V">V</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="left_initial_position">Position</label>
+                        <select name="left_initial_position" id="left_initial_position" required>
+                            <th:block th:each="letter : ${letters}">
+                                <option th:value="${letter}" th:text="${letter}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="left_ring_setting">Ring</label>
+                        <select name="left_ring_setting" id="left_ring_setting" required>
+                            <th:block th:each="letter : ${letters}">
+                                <option th:value="${letter}" th:text="${letter}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Rotor II -->
+                <div class="dropdown-row">
+                    <div class="form-group">
+                        <label for="center_rotor">Rotor II</label>
+                        <select name="center_rotor" id="center_rotor" required>
+                            <option value="I">I</option>
+                            <option value="II">II</option>
+                            <option value="III">III</option>
+                            <option value="IV">IV</option>
+                            <option value="V">V</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="center_initial_position">Position</label>
+                        <select name="center_initial_position" id="center_initial_position" required>
+                            <th:block th:each="letter : ${letters}">
+                                <option th:value="${letter}" th:text="${letter}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="center_ring_setting">Ring</label>
+                        <select name="center_ring_setting" id="center_ring_setting" required>
+                            <th:block th:each="letter : ${letters}">
+                                <option th:value="${letter}" th:text="${letter}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Rotor III -->
+                <div class="dropdown-row">
+                    <div class="form-group">
+                        <label for="right_rotor">Rotor III</label>
+                        <select name="right_rotor" id="right_rotor" required>
+                            <option value="I">I</option>
+                            <option value="II">II</option>
+                            <option value="III">III</option>
+                            <option value="IV">IV</option>
+                            <option value="V">V</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="right_initial_position">Position</label>
+                        <select name="right_initial_position" id="right_initial_position" required>
+                            <th:block th:each="letter : ${letters}">
+                                <option th:value="${letter}" th:text="${letter}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="right_ring_setting">Ring</label>
+                        <select name="right_ring_setting" id="right_ring_setting" required>
+                            <th:block th:each="letter : ${letters}">
+                                <option th:value="${letter}" th:text="${letter}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-column">
+                <div class="dropdown-row">
+                    <div class="form-group">
+                        <label for="reflector">Reflector</label>
+                        <select name="reflector" id="reflector" required>
+                            <option value="A">Reflector A</option>
+                            <option value="B">Reflector B</option>
+                            <option value="C">Reflector C</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="dropdown-row">
+                    <div class="form-group">
+                        <label for="plugboard">Plugboard</label>
+                        <input type="text" id="plugboard" name="plugboard"
+                               value="AB CD EF"
+                               oninput="handlePlugboardInput(this)"
+                               placeholder="Enter plugboard settings">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit">Encrypt</button>
+
+        <!-- Encrypted Output -->
+        <div class="output">
+            <label for="ciphertext">Encrypted Text:</label>
+            <textarea id="ciphertext" name="ciphertext" rows="4" readonly
+                      th:text="${ciphertext}"></textarea>
+        </div>
+    </form>
+</div>
 </body>
 </html>

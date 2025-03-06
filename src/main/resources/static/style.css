@@ -1,0 +1,123 @@
+/* Global Styles */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(to bottom, #001ec7, #213ac4);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: block;
+    color: white;
+}
+
+/* Container */
+.container {
+    width: 85%;
+    margin: 50px auto;
+    padding: 20px;
+    background: rgba(82, 103, 219, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Form Elements */
+input, select, textarea, button {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid rgba(200, 200, 200, 0.6);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Error Styling */
+.error {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+}
+
+.columns-container {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1rem;
+}
+
+.left-column {
+    flex: 3;
+}
+
+.right-column {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    justify-content: flex-start;
+    align-self: stretch;
+}
+
+
+/* Rotor Configuration Rows */
+.dropdown-row {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+.dropdown-row .form-group {
+    flex: 1;
+}
+
+/* Responsiveness for smaller screens */
+@media (max-width: 768px) {
+    .columns-container {
+        flex-direction: column;
+    }
+
+    .left-column,
+    .right-column {
+        flex: 0 0 100%; /* Full width for both columns */
+    }
+
+    .dropdown-row {
+        flex-direction: column; /* Stack selectors vertically within each rotor */
+    }
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+* {
+    box-sizing: border-box;
+}
+input::placeholder, textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Vendor prefixes for broader compatibility */
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+input::-moz-placeholder, textarea::-moz-placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
